@@ -12,8 +12,6 @@ export default function Login() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const isInvalid = password === '' || emailAddress === '';
-    console.log(emailAddress)
-    console.log(password);
     const handleLogin = async (event) => {
         event.preventDefault();
         try {
@@ -62,7 +60,7 @@ export default function Login() {
                 </div>
                 <div className="flex justify-center items-center flex-col w-full bg-white p-4 rounded border border-gray-primary">
                     <p className="text-sm">Dont have an account?{``}
-                        <Link to="/signup" className="font-bold text-blue-medium">Sign up</Link>
+                        <Link to={ROUTES.SIGN_UP} className="font-bold text-blue-medium">Sign up</Link>
                     </p>
                 </div>
             </div>
