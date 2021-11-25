@@ -17,11 +17,32 @@ export default function SignUp() {
     const handleSignUp = async (event) => {
         event.preventDefault();
         const usernameExist = await doesUsernameExist(username);
-        // try {
+        if (!usernameExist.length) {
+            try {
+                const createdUserResult = await firebase.auth().createUserWithEmailAndPassword(emailAddress, password);
+                await createdUserResult.user.updateProfile({
+                    displayName: username
+                });
 
-        // } catch (error) {
+                await firebase.firestore().collection('users').add({
+                    userId: createdUserResult.user.uid,
+                    username: username.toLocaleLowerCase(),
+                    fullName,
+                    emailAddress: emailAddress.toLocaleLowerCase(),
+                    following: [],
+                    dateCreated: Date.now()
+                });
 
-        // }
+                navigate(ROUTES.DASHBOARD);
+            } catch (error) {
+                setFullName('');
+                setEmailAddress('');
+                setPassword('');
+                setError(error.message);
+            }
+        } else {
+            setError('That username is already taken, please try another.');
+        }
     };
 
     useEffect(() => {
